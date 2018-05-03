@@ -2,7 +2,7 @@
 
 Commands
 --------------------------------------------------
-start zookeeper-server-start.bat %KAFKA_CONFIG%/zookeeper.properties
+start zookeeper-server-start.bat %KAFKA_CONFIG%/zookeeper.properties  
 start kafka-server-start.bat %KAFKA_CONFIG%/server.properties
 start kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Hello-Kafka
 start kafka-topics.bat --list --zookeeper localhost:2181
