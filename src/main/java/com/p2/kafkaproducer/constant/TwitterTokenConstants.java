@@ -12,7 +12,7 @@ public class TwitterTokenConstants {
     public static String ACCESS_TOKEN;
     public static String ACCESS_TOKEN_SECRET;
 
-    private static final String TWITTER_TOKEN_FILE = "TwitterUserToken";
+    private static final String TWITTER_TOKEN_FILE = "TwitterOauthToken";
 
     private static ResourceBundle bundle = ResourceBundle.getBundle(TWITTER_TOKEN_FILE);
 
