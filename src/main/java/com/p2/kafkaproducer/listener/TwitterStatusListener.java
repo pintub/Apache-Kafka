@@ -23,16 +23,19 @@ public class TwitterStatusListener implements StatusListener {
 
     @Override
     public void onStatus(Status status) {
-        System.out.println("Inside onStatus():\n" + status.getText() + " by " +
-                status.getUser().getName());
+        System.out.println("Tweet with HashTag : " + kafkaTopic +"\n" );
+        System.out.println("==============================================" +"\n" );
+        System.out.println(status.getText() + " by " + status.getUser().getName());
         System.out.println("\n");
         System.out.println("HashTags\n");
         for(HashtagEntity hashtagEntity : status.getHashtagEntities()) {
             System.out.println(hashtagEntity.getText());
         }
 
-        /*kafkaProducer.send(new ProducerRecord<String, String>(kafkaTopic, status.getUser().getName()
-            , status.getText()));*/
+        kafkaProducer.send(new ProducerRecord<String, String>(kafkaTopic, null
+            , status.getUser().getName() + " ::: " + status.getText()));
+        System.out.println("Tweet pushed with HashTag " + kafkaTopic + " pushed to Kafka Topic");
+        System.out.println("==============================================" +"\n" );
     }
 
     @Override

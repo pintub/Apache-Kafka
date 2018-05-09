@@ -22,5 +22,6 @@ public class KafkaConfigurationConstants {
         KAFKA_CONFIG_PROPS.put("buffer.memory", Integer.parseInt(kafkaBundle.getString("buffer.memory")));
         KAFKA_CONFIG_PROPS.put("key.serializer", kafkaBundle.getString("key.serializer"));
         KAFKA_CONFIG_PROPS.put("value.serializer", kafkaBundle.getString("value.serializer"));
+        KAFKA_CONFIG_PROPS.put("producer.type", kafkaBundle.getString("producer.type"));
     }
 }
