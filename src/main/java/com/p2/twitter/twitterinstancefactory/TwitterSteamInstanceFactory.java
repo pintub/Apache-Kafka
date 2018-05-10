@@ -1,6 +1,6 @@
-package com.p2.kafkaproducer.factory;
+package com.p2.twitter.twitterinstancefactory;
 
-import com.p2.kafkaproducer.constant.TwitterTokenConstants;
+import com.p2.constant.TwitterTokenConstants;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;

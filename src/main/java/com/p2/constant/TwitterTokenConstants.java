@@ -1,4 +1,4 @@
-package com.p2.kafkaproducer.constant;
+package com.p2.constant;
 
 import java.util.ResourceBundle;
 

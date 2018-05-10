@@ -1,4 +1,4 @@
-package com.p2.twitterexample;
+package com.p2.twitter.twitterexample;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 /**
  * Created by I335831 on 5/5/2018.
  */
-public class FirstTwitterCLient {
+public class FirstTwitterClient {
 
     private static String consumerKey ;
     private static String consumerSecret ;

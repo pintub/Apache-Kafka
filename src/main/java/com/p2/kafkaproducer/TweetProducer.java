@@ -1,9 +1,9 @@
 package com.p2.kafkaproducer;
 
 import com.p2.KafkaStreamApplicationException;
-import com.p2.kafkaproducer.constant.KafkaConfigurationConstants;
-import com.p2.kafkaproducer.factory.TwitterSteamInstanceFactory;
-import com.p2.kafkaproducer.listener.TwitterStatusListener;
+import com.p2.constant.KafkaConfigurationConstants;
+import com.p2.twitter.twitterinstancefactory.TwitterSteamInstanceFactory;
+import com.p2.twitter.twitterstreamlistener.TwitterStreamListener;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import twitter4j.FilterQuery;
@@ -14,7 +14,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * Created by I335831 on 5/5/2018.
  * Produces Stream of #HashTag Messages into Kafka Topic
  */
-public class TwitterHashTagSteamProducer {
+public class TweetProducer {
     private static String HASH_TAG_KEY ;
     private Producer<String, String> kafkaProducer;
     private String kafkaTopic;
@@ -28,7 +28,7 @@ public class TwitterHashTagSteamProducer {
         this.kafkaProducer = kafkaProducer;
     }
 
-    public Producer<String, String> getKafkaProducer(){
+    private Producer<String, String> getKafkaProducer(){
         return this.kafkaProducer;
     }
 
@@ -42,8 +42,12 @@ public class TwitterHashTagSteamProducer {
         twitterStream.filter(getFilterQuery());
     }
 
-    private TwitterStatusListener getTwitterStatusListener(){
-        return new TwitterStatusListener(this.kafkaProducer, this.kafkaTopic);
+    public void produce(){
+        this.initTwitterStream();
+    }
+
+    private TwitterStreamListener getTwitterStatusListener(){
+        return new TwitterStreamListener(this.kafkaProducer, this.kafkaTopic);
     }
 
     private FilterQuery getFilterQuery(){
@@ -58,18 +62,19 @@ public class TwitterHashTagSteamProducer {
             HASH_TAG_KEY = args[0].toString();
         }
 
-        TwitterHashTagSteamProducer twitterHashTagSteamProducer = new TwitterHashTagSteamProducer();
+        TweetProducer tweetProducer = new TweetProducer();
 
-        twitterHashTagSteamProducer.setTwitterSteamInstanceFactory(new TwitterSteamInstanceFactory(new ConfigurationBuilder()));
-        twitterHashTagSteamProducer
-                .setKafkaProducer(new KafkaProducer<String, String>(KafkaConfigurationConstants.KAFKA_CONFIG_PROPS));
-        twitterHashTagSteamProducer
+        tweetProducer.setTwitterSteamInstanceFactory(new TwitterSteamInstanceFactory(new ConfigurationBuilder()));
+        tweetProducer
+                .setKafkaProducer(new KafkaProducer<String, String>(KafkaConfigurationConstants.KAFKA_PRODUCER_CONFIG_PROPS));
+        tweetProducer
                 .setKafkaTopic(HASH_TAG_KEY);
         try {
-            twitterHashTagSteamProducer.initTwitterStream();
+            tweetProducer.produce();
         } catch (Exception e){
-            twitterHashTagSteamProducer.getKafkaProducer().close();//To free up Kafka Broker connection and resources
-            throw new KafkaStreamApplicationException("Exception in Kafka topic Producing", e);
+            throw new KafkaStreamApplicationException("Exception while Producing in Kafka topic " , e);
+        } finally {
+            tweetProducer.getKafkaProducer().close();//To free up Kafka Broker connection and resources
         }
     }
 }
