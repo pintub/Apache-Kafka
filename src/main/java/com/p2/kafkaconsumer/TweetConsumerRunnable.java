@@ -26,10 +26,11 @@ public class TweetConsumerRunnable implements Runnable {
         while (true){
             ConsumerRecords<String, String > tweets = kafkaConsumer.poll(10000);
             for(ConsumerRecord<String, String> tweet : tweets){
-                System.out.printf("Thread %d in action :", threadNo + "\n");
-                System.out.printf("Tweet read from %s topic : " + TOPIC_NAME + "\n");
-                System.out.printf("Tweet offset = %d, key = %s, value = %s : ",
-                        tweet.offset(), tweet.key(), tweet.value() + "\n");
+                System.out.printf("Thread%s - Tweet read from %s topic : " , threadNo, TOPIC_NAME);
+                System.out.println("\n");
+                System.out.printf("Thread%s - Tweet offset = %d, key = %s, value = %s ", threadNo,
+                        tweet.offset(), tweet.key(), tweet.value());
+                System.out.println("\n");
             }
         }
     }

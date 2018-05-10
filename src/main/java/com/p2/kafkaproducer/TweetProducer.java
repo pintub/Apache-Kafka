@@ -56,7 +56,7 @@ public class TweetProducer {
 
     public static void main(String[] args) throws KafkaStreamApplicationException {
 
-        if(args.length == 0){
+        if(args.length != 1){
             throw new KafkaStreamApplicationException("Enter Proper HashTag As Argument");
         } else {
             HASH_TAG_KEY = args[0].toString();
@@ -72,9 +72,9 @@ public class TweetProducer {
         try {
             tweetProducer.produce();
         } catch (Exception e){
-            throw new KafkaStreamApplicationException("Exception while Producing in Kafka topic " , e);
-        } finally {
             tweetProducer.getKafkaProducer().close();//To free up Kafka Broker connection and resources
+            System.out.println("Kafka Producer connection Freed-up");
+            throw new KafkaStreamApplicationException("Exception while Producing in Kafka topic " , e);
         }
     }
 }
